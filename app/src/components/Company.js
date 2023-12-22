@@ -7,7 +7,7 @@ const Company = () => {
   const [isDarkMode, setDarkMode] = useState(false)
   const [addNew, setAddNew] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
-  const [sites, setSites] = useState([])
+  const [sites, setSites] = useState([{}])
   const [company, setCompany] = useState([])
 
   const addNewSite = () => {
