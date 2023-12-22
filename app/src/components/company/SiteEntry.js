@@ -32,7 +32,6 @@ const SiteEntry = ({ site, index, handleInputChange, removeSite }) => (
         />
         <input
           type="text"
-          pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
           name={`floating_position_${site.id}`}
           id={`floating_position_${site.id}`}
           value={site.position}

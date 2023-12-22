@@ -1,9 +1,7 @@
 // src/components/ToggleableSidebar.js
 
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, {} from 'react'
 import { Transition } from 'react-transition-group'
-import DarkModeToggle from '../components/DarkModeToggle'
 
 const Sidebar = ({ isOpen, onClose, onSelect }) => {
   const Menu = [
@@ -11,8 +9,6 @@ const Sidebar = ({ isOpen, onClose, onSelect }) => {
     { name: 'company', label: 'Company' },
     { name: 'user', label: 'User' }
   ]
-
-  const [selected, setSelected] = useState('DashBoard')
 
   const duration = 300
 

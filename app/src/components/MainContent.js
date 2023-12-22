@@ -1,6 +1,5 @@
 import React, { lazy, Suspense, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import DarkModeToggle from './DarkModeToggle'
 export default function MainContent ({ selected }) {
   const navigate = useNavigate()
 

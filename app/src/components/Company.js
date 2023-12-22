@@ -4,11 +4,10 @@ import CompanyTable from './company/CompanyTable'
 import SiteForm from './company/SiteForm'
 
 const Company = () => {
-  const [isDarkMode, setDarkMode] = useState(false)
   const [addNew, setAddNew] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const [sites, setSites] = useState([{}])
-  const [company, setCompany] = useState([])
+  const [company] = useState([])
 
   const addNewSite = () => {
     setSites(prevSites => [...prevSites, { id: Date.now(), phone: '', company: '' }])
@@ -24,11 +23,6 @@ const Company = () => {
         site.id === id ? { ...site, [field]: value } : site
       )
     )
-  }
-
-  const toggleDarkMode = () => {
-    setDarkMode(prevMode => !prevMode)
-    document.body.classList.toggle('dark', !isDarkMode)
   }
 
   const toggleAddNew = () => {
