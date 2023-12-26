@@ -66,3 +66,7 @@ input:focus + .slider {
 input:checked + .slider:before {
   transform: translateX(26px);
 }
+
+.pg-viewer-wrapper {
+  overflow-y: hidden;
+}

@@ -1,9 +1,10 @@
 // Company.js
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import CompanyTable from './company/CompanyTable'
 import SiteForm from './company/SiteForm'
 import httpClientRequest from '../lib/httpClientRequest'
 import Modal from './Modal'
+import FileUploadComponent from './Upload'
 const Company = () => {
   const [addNew, setAddNew] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
@@ -16,6 +17,7 @@ const Company = () => {
   const [page, setPage] = useState(1)
   const [deleteItemId, setDeleteItemId] = useState(null)
   const [isModalOpen, setModalOpen] = useState(false)
+  const fileUploadRef = useRef()
 
   useEffect(() => {
     setFetchingData(true)
@@ -25,7 +27,6 @@ const Company = () => {
   const fetchData = async () => {
     const companyData = await httpClientRequest.get(`/company/?page=${page}&page_size=${pageSize}`)
     setCompany(companyData)
-    console.log(companyData)
     setFetchingData(false)
   }
 
@@ -54,16 +55,21 @@ const Company = () => {
     e.preventDefault()
     setSaving(true)
     console.log(fields)
+    const fileUpload = await fileUploadRef.current.handleSaveClick()
+
     const payload = {
       company_name: fields.company_name,
       address: fields.address,
+      file_upload: fileUpload.filename,
       sites
     }
 
+    console.log(payload)
     const companyData = await httpClientRequest.post('/company', payload)
     console.log('payload', companyData)
 
     setSaving(false)
+    setSites([{}])
   }
 
   const toggleAddNew = () => {
@@ -139,7 +145,7 @@ const Company = () => {
         </div>
 
         <div id='table' className={`flex overflow-y-scroll ${addNew ? '' : 'hidden'} bg-secondary w-[50rem] p-5`}>
-          <form onSubmit={(e) => createNewCompany(e)} className="w-[40rem] mx-auto m-5">
+          <form onSubmit={(e) => createNewCompany(e)} className="w-[40rem] mx-auto m-5 gap-3">
             <SiteForm
               sites={sites}
               handleInputChange={handleInputChange}
@@ -147,6 +153,9 @@ const Company = () => {
               removeSite={removeSite}
               addNewSite={addNewSite}
             />
+
+            <FileUploadComponent ref={fileUploadRef} />
+
             <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 mt-5">Save</button>
           </form>
         </div>

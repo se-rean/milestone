@@ -1,5 +1,6 @@
 import React from 'react'
 import Tree from '../TreeNode'
+import FilePreview from '../FilePreview'
 const CompanyTable = ({ filteredSites, handleDelete }) => (
   <div className="relative overflow-x-auto shadow-md sm:rounded-lg p-5">
     <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -13,6 +14,9 @@ const CompanyTable = ({ filteredSites, handleDelete }) => (
           </th>
           <th scope="col" className="px-6 py-3">
             Sites
+          </th>
+          <th scope="col" className="px-6 py-3">
+            File
           </th>
           <th scope="col" className="px-6 py-3">
             Action
@@ -31,7 +35,10 @@ const CompanyTable = ({ filteredSites, handleDelete }) => (
             <td className="px-6 py-4 whitespace-nowrap ">
               <Tree data={site.sites}/>
             </td>
-            <td className="flex flex-row px-6 py-4 gap-2 items-center">
+            <td className="px-6 py-4 whitespace-nowrap h-10 w-10">
+              <FilePreview file={site.file_upload}/>
+            </td>
+            <td className="flex flex-row px-6 py-4 gap-2 items-center align-center justify-center">
               <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
                 Edit
               </a>

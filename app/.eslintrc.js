@@ -30,7 +30,7 @@ module.exports = {
   rules: {
     indent: ['error', 2],
     'react/prop-types': 'off',
-    // 'no-unused-vars': 'off',
+    'no-unused-vars': 'off',
     'react/react-in-jsx-scope': 'off'
   }
 }
