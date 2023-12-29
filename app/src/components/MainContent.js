@@ -1,5 +1,7 @@
 import React, { lazy, Suspense, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import ErrorBoundary from '../ErrorBoundary'
+
 export default function MainContent ({ selected }) {
   const navigate = useNavigate()
 
@@ -30,7 +32,9 @@ export default function MainContent ({ selected }) {
       {/* Your dashboard content goes here */}
       <div className="flex items-center justify-center h-[90vh] bg-gray-100">
         <Suspense fallback={<div>Loading...</div>}>
-          <Component />
+          <ErrorBoundary>
+            <Component />
+          </ErrorBoundary>
         </Suspense>
       </div>
     </div>
