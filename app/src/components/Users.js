@@ -30,7 +30,7 @@ const UserManagement = () => {
 
   useEffect(() => {
     getUsers()
-  }, [fetchUsers === true])
+  }, [setFetchUsers])
 
   const getUsers = async () => {
     setFetchUsers(true)
