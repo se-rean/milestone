@@ -36,7 +36,6 @@ const UserManagement = () => {
     setFetchUsers(true)
     const userList = await httpClientRequest.get('/user/')
     setUsers(userList)
-    console.log(users)
     setFetchUsers(false)
   }
 
@@ -54,7 +53,6 @@ const UserManagement = () => {
   const handleConfirmDelete = async () => {
     setFetchUsers(true)
     const companyData = await httpClientRequest.delete(`/user/?user_id=${deleteItemId}`)
-    console.log(`Deleting item with id: ${deleteItemId}`)
     handleCloseModal()
     setFetchUsers(false)
   }

@@ -12,7 +12,6 @@ export const httpClientRequest = Object.freeze({
   get: async (URL, payload) => {
     try {
       const response = await request.get(`${URL}`, payload)
-      console.log(URL)
       return response.data
     } catch (error) {
       console.info(`Error on Get request: ${URL}, ${error}`)
