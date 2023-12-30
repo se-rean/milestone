@@ -1,13 +1,16 @@
 // src/components/ToggleableSidebar.js
-
+import DarkModeToggle from '../components/DarkModeToggle'
 import React, {} from 'react'
 import { Transition } from 'react-transition-group'
 
 const Sidebar = ({ isOpen, onClose, onSelect }) => {
   const Menu = [
+    { name: 'category', label: 'Menu' },
     { name: 'dashboard', label: 'Dashboard' },
+    { name: 'category', label: 'Manage' }, // for creating menu category note: change label
     { name: 'company', label: 'Company' },
-    { name: 'user', label: 'User' }
+    { name: 'user', label: 'User' },
+    { name: 'customer', label: 'Customer' }
   ]
 
   const duration = 300
@@ -47,17 +50,21 @@ const Sidebar = ({ isOpen, onClose, onSelect }) => {
               className="text-2xl font-bold mb-4"
               src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuiv8OnGDFr37sFZasBKlRrCZm46guLppTFo38z01XKQ&s'
             />
-            <ul className='cursor-pointer'>
+            <ul className=''>
               {
-                Menu.map((item, index) => (
-                  <li key={item.name} onClick={() => handleOnSelect(item.label)} className="mb-2 hover:underline hover:text-md">{item.label}</li>
-                ))
+                Menu.map((item, index) => {
+                  return item.name === 'category'
+                    ? (<p className='text-gray-400 text-sm w-full mt-5 border-b my-4' key={item.name} >{item.label}</p>)
+                    : (
+                      <li key={item.name} onClick={() => handleOnSelect(item.label)} className="cursor-pointer mb-2 hover:underline hover:text-md px-5">{item.label}</li>
+                    )
+                })
               }
             </ul>
           </div>
 
           <div className='mt-10'>
-            {/* <DarkModeToggle />  */}
+            {/* <DarkModeToggle /> */}
           </div>
         </div>
       )}
