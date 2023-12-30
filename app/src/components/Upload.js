@@ -35,7 +35,7 @@ const FileUploadComponent = forwardRef((_props, ref) => {
       const config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: 'http://localhost:8009/milestone/api/v1/file/upload', // Replace with your actual upload URL
+        url: 'http://47.128.250.72:8009/milestone/api/v1/file/upload', // Replace with your actual upload URL
         headers: {
           'Content-Type': 'multipart/form-data'
         },
