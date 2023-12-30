@@ -35,7 +35,6 @@ export default function ManageUserModal ({
     setUsers([...users, user])
 
     const mappedData = fields.reduce((acc, cur) => {
-      console.log(cur)
       return { ...acc, [cur.name]: cur.value }
     }, {})
 
@@ -60,9 +59,7 @@ export default function ManageUserModal ({
 
   useEffect(() => {
     fetchRole()
-    console.log(update)
     if (update) {
-      console.log(update)
       fetchUserDataForUpdate()
     }
   }, [])
@@ -74,7 +71,6 @@ export default function ManageUserModal ({
         const roleFieldIndex = prevFields.findIndex((field) => field.name === 'role')
         const updatedFields = [...prevFields]
         updatedFields[roleFieldIndex].options = userRole?.data
-        console.log(userRole?.data)
         const MFA = prevFields.findIndex((field) => field.name === 'MFA')
         updatedFields[MFA].options = [{
           name: 'True'
@@ -83,7 +79,6 @@ export default function ManageUserModal ({
           name: 'False'
         }]
 
-        console.log(updatedFields)
         return updatedFields
       })
     } catch (error) {
@@ -108,7 +103,6 @@ export default function ManageUserModal ({
       })
       return updatedFields
     })
-    console.log(fields)
     closeModal()
   }
 

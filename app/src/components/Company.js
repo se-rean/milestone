@@ -47,14 +47,12 @@ const Company = () => {
   }
 
   const handleInputChange = (id, field, value) => {
-    console.log(id, field, value)
     setFields({ ...fields, [field]: value })
   }
 
   const createNewCompany = async (e) => {
     e.preventDefault()
     setSaving(true)
-    console.log(fields)
     const fileUpload = await fileUploadRef.current.handleSaveClick()
 
     const payload = {
@@ -64,9 +62,7 @@ const Company = () => {
       sites
     }
 
-    console.log(payload)
     const companyData = await httpClientRequest.post('/company', payload)
-    console.log('payload', companyData)
 
     setSaving(false)
     setSites([{}])
@@ -76,7 +72,6 @@ const Company = () => {
     setAddNew(!addNew)
     setSites([{}])
     setFields([])
-    console.log(sites)
   }
 
   let filteredSites = []
@@ -84,12 +79,9 @@ const Company = () => {
     filteredSites = company.data.rows.filter(item =>
       item?.company_name.includes(searchTerm)
     )
-
-    console.log(filteredSites)
   }
 
   const handleDelete = (id) => {
-    console.log(id)
     setDeleteItemId(id)
     setModalOpen(true)
   }
@@ -102,7 +94,6 @@ const Company = () => {
   const handleConfirmDelete = async () => {
     setSaving(true)
     const companyData = await httpClientRequest.delete(`company/?company_id=${deleteItemId}`)
-    console.log(`Deleting item with id: ${deleteItemId}`)
     // Close the modal
     setSaving(false)
     handleCloseModal()

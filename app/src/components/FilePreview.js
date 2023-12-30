@@ -6,17 +6,14 @@ const FilePreview = ({ file }) => {
   const [modal, setModal] = useState(false)
 
   const handleOpenModal = () => {
-    console.log(modal)
     setModal(true)
   }
 
   const handleCloseModal = () => {
-    console.log(modal)
     setModal(false)
   }
 
   const handleDownloadFile = async (file) => {
-    console.log(file)
   }
 
   if (!file) return null
