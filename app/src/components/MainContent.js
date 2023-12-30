@@ -1,7 +1,7 @@
 import React, { lazy, Suspense, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import ErrorBoundary from '../ErrorBoundary'
-
+import logoutIco from '../assets/logout.svg'
 export default function MainContent ({ selected }) {
   const navigate = useNavigate()
 
@@ -16,7 +16,7 @@ export default function MainContent ({ selected }) {
       setComponent(lazy(() => import('./Company')))
     } else if (selected === 'User') {
       setComponent(lazy(() => import('./Users')))
-    } else if (selected === 'Dashboard') {
+    } else if (selected === 'Home') {
       setComponent(lazy(() => import('./DashBoard')))
     } else {
       setComponent(lazy(() => import('./UnderConstruction')))
@@ -26,9 +26,10 @@ export default function MainContent ({ selected }) {
   return (
     <div className={'flex-grow px-4 transition-margin duration-300 ease-in-out'}>
       <div className='flex justify-between items-center bg-secondary'>
-        <h1 className="text-3xl font-bold  text-blue-500 p-5">{selected}</h1>
-        <ul className='cursor-pointer'>
-          <li onClick={() => logout()} className="text-md font-bold mb-4 hover:underline">Logout</li>
+        <h1 className="text-3xl font-bold  text-[#15192C] p-5">{selected}</h1>
+        <ul className='p-5 flex-row flex'>
+          <h1 className='font-bold px-5'>{new Date(Date.now()).getDate()}/{new Date(Date.now()).getMonth() + 1}/{new Date(Date.now()).getFullYear()}</h1>
+          <img alt='Logout' className="cursor-pointer " onClick={() => logout()} src={logoutIco}/>
         </ul>
       </div>
       {/* Your dashboard content goes here */}
