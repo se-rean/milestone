@@ -17,7 +17,7 @@ function Main () {
   }
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen bg-secondary">
       <ToggleableSidebar onSelect={handleOnSelect} isOpen={isSidebarOpen} onClose={handleToggleSidebar} />
       <MainContent selected={selected}/>
     </div>
