@@ -6,6 +6,7 @@ import {
 import React, { useState } from 'react'
 import Login from './components/Login'
 import Main from './components/Main'
+import NotFound from './components/NotFound'
 
 function App () {
   return (
@@ -14,6 +15,7 @@ function App () {
         <Routes>
           <Route path='/main' element={<Main />}/>
           <Route path='/' element={<Login />}/>
+          <Route path='*' element={<NotFound />}/>
         </Routes>
       </div>
     </BrowserRouter>

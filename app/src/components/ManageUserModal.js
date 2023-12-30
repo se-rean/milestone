@@ -2,13 +2,16 @@ import React, { useEffect, useState } from 'react'
 import httpClientRequest from '../lib/httpClientRequest'
 import ErrorBoundary from '../ErrorBoundary'
 
-export default function CreateUserModal ({ handleSubmit, closeModal, createUser }) {
+export default function ManageUserModal ({
+  handleSubmit, closeModal, createUser, update = false,
+  updateData = {}
+}) {
   const [users, setUsers] = useState([])
   const [fields, setFields] = useState([
     { name: 'username', label: 'Username', value: '' },
     { name: 'email', label: 'Email', value: '' },
-    { name: 'fname', label: 'First Name', value: '' },
-    { name: 'lname', label: 'Last Name', value: '' },
+    { name: 'first_name', label: 'First Name', value: '' },
+    { name: 'last_name', label: 'Last Name', value: '' },
     { name: 'department', label: 'Department', value: '' },
     { name: 'position', label: 'Position', value: '' },
     { name: 'phone_no', label: 'Phone No.', value: '' },
@@ -17,11 +20,11 @@ export default function CreateUserModal ({ handleSubmit, closeModal, createUser 
     { name: 'state', label: 'State', value: '' },
     { name: 'suburb', label: 'SubUrb', value: '' },
     { name: 'expiration_date', label: 'Expiration Date', value: '' },
-    { name: 'MFA', label: 'MFA', value: '' },
-    { name: 'role', label: 'Role', value: 'Error Fetching Role' }
+    { name: 'MFA', label: 'MFA', value: 'true' },
+    { name: 'role', label: 'Role', value: 'Guest' }
   ])
 
-  const addUser = (e) => {
+  const addUser = async (e) => {
     e.preventDefault()
     // Create a user object with field values
     const user = {}
@@ -29,15 +32,39 @@ export default function CreateUserModal ({ handleSubmit, closeModal, createUser 
       user[field.name] = field.value
     })
 
-    // Add a new user to the users state
     setUsers([...users, user])
 
-    // Clear input fields
-    setFields(fields.map((field) => ({ ...field, value: '' })))
+    const mappedData = fields.reduce((acc, cur) => {
+      console.log(cur)
+      return { ...acc, [cur.name]: cur.value }
+    }, {})
+
+    const result = await httpClientRequest.post('user/', mappedData)
+    createUser(result)
+  }
+
+  const fetchUserDataForUpdate = async () => {
+    try {
+      // Use the provided updateData for initializing field values
+      setFields((prevFields) => {
+        const updatedFields = [...prevFields]
+        updatedFields.forEach((field) => {
+          field.value = updateData[field.name] || ''
+        })
+        return updatedFields
+      })
+    } catch (error) {
+      console.error('Error initializing fields for update:', error)
+    }
   }
 
   useEffect(() => {
     fetchRole()
+    console.log(update)
+    if (update) {
+      console.log(update)
+      fetchUserDataForUpdate()
+    }
   }, [])
 
   const fetchRole = async () => {
@@ -47,6 +74,16 @@ export default function CreateUserModal ({ handleSubmit, closeModal, createUser 
         const roleFieldIndex = prevFields.findIndex((field) => field.name === 'role')
         const updatedFields = [...prevFields]
         updatedFields[roleFieldIndex].options = userRole?.data
+        console.log(userRole?.data)
+        const MFA = prevFields.findIndex((field) => field.name === 'MFA')
+        updatedFields[MFA].options = [{
+          name: 'True'
+        },
+        {
+          name: 'False'
+        }]
+
+        console.log(updatedFields)
         return updatedFields
       })
     } catch (error) {
@@ -61,6 +98,18 @@ export default function CreateUserModal ({ handleSubmit, closeModal, createUser 
       updatedFields[fieldIndex].value = value
       return updatedFields
     })
+  }
+
+  const closing = () => {
+    setFields((prevFields) => {
+      const updatedFields = [...prevFields]
+      updatedFields.forEach((field) => {
+        field.value = ''
+      })
+      return updatedFields
+    })
+    console.log(fields)
+    closeModal()
   }
 
   return (
@@ -89,17 +138,11 @@ export default function CreateUserModal ({ handleSubmit, closeModal, createUser 
                               className="mt-1 p-2 border rounded w-full"
                               required
                             >
-                              {field.options.length > 0
-                                ? field.options.map((option) => (
-                                  <option key={option.name} value={option.name}>
-                                    {option.name}
-                                  </option>
-                                ))
-                                : (
-                                  <option key="invalid">
-                                    Error Fetching Role
-                                  </option>
-                                )
+                              {field.options.map((option) => (
+                                <option key={option.name} value={option.name}>
+                                  {option.name}
+                                </option>
+                              ))
                               }
                             </select>
                           )
@@ -121,13 +164,13 @@ export default function CreateUserModal ({ handleSubmit, closeModal, createUser 
               <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                 <button
                   type="button"
-                  onClick={closeModal}
+                  onClick={() => closing()}
                   className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                 >
             Cancel
                 </button>
 
-                <button className="bg-blue-500 text-white p-2 rounded">Save User</button>
+                <button type="submit" className="bg-blue-500 text-white p-2 rounded">{(update === true) ? 'Update User' : 'Save User'}</button>
               </div>
             </div>
           </div>

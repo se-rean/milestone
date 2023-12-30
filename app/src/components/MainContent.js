@@ -18,6 +18,8 @@ export default function MainContent ({ selected }) {
       setComponent(lazy(() => import('./Users')))
     } else if (selected === 'Dashboard') {
       setComponent(lazy(() => import('./DashBoard')))
+    } else {
+      setComponent(lazy(() => import('./NotFound')))
     }
   }, [selected])
 
