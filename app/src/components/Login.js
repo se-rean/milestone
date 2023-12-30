@@ -1,12 +1,30 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-
+import httpClientRequest from '../lib/httpClientRequest'
+import AuthenticateUser from '../lib/AuthenticateUser'
+import { decryptFromStorage, encryptAndStore } from '../lib/SecureStorage'
 export default function Login () {
+  AuthenticateUser()
   const navigate = useNavigate()
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
 
-  const handleSubmit = (args) => {
+  const handleSubmit = async (args) => {
     args.preventDefault()
-    navigate('/main')
+
+    try {
+      const response = await httpClientRequest.post('/auth/login', { username, password })
+      if (response.is_success === false) return alert(response.message)
+
+      encryptAndStore('user', JSON.stringify(response.data))
+      localStorage.setItem('username', response.data.username)
+      localStorage.setItem('role', response.data.role)
+      // Redirect or update state to indicate successful login
+      navigate('/main')
+    } catch (error) {
+      console.error('Login failed', error)
+      // Handle login failure (e.g., show an error message)
+    }
   }
 
   return (
@@ -18,6 +36,8 @@ export default function Login () {
             Username
           </label>
           <input
+            onChange={(e) => setUsername(e.target.value)}
+            value={username}
             type="text"
             id="username"
             className="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
@@ -28,6 +48,8 @@ export default function Login () {
             Password
           </label>
           <input
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
             type="password"
             id="password"
             className="w-full border rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"

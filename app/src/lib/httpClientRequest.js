@@ -1,10 +1,13 @@
 import axios from 'axios'
+import { decryptFromStorage } from './SecureStorage'
+const user = await decryptFromStorage('user')
+const apiUrl = process.env.REACT_APP_API_URL
 const request = axios.create({
-  baseURL: 'http://47.128.250.72:8009/milestone/api/v1',
+  baseURL: `${apiUrl}`,
   timeout: 5000, // 5 seconds timeout
   headers: {
     'Content-Type': 'application/json',
-    Authorization: 'Bearer YOUR_ACCESS_TOKEN'
+    Authorization: `Bearer ${user.access_token}`
   }
 })
 
