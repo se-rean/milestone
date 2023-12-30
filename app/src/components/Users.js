@@ -65,12 +65,12 @@ const UserManagement = () => {
   }
 
   return (
-    <div className="flex justify-around h-full w-full bg-white">
+    <div className="flex justify-around h-full w-full bg-secondary p-5">
       {/* Input Div */}
       {isModalOpen && (<Modal.DeleteModal handleCloseModal={handleCloseModal} handleConfirmDelete={handleConfirmDelete}/>)}
       { viewCreateModal && <ManageUserModal update={forUpdate} updateData={updateData} createUser={createUser} closeModal={closeModal} /> }
       {/* Table Div */}
-      <div className="border p-4 w-1/2 flex-1 overflow-scroll">
+      <div className="border p-4 w-1/2 flex-1 overflow-scroll  rounded-md bg-primary">
         <h2 className="text-lg font-semibold mb-4">Users Table</h2>
         <h2 onClick={addUser} className="text-lg font-semibold mb-4 border-2 border-cyan-100 w-28 px-2 hover:bg-primary rounded-md text-center text-slate-600 cursor-pointer text-gray-200">Add New</h2>
         <table className="w-full border-collapse">

@@ -103,7 +103,7 @@ const Company = () => {
     <div className='h-full w-full'>
 
       <div className='h-[90vh] justify-around flex gap-2  p-5 bg-secondary'>
-        <div id='data' className={`flex gap-2 h-full w-full flex-1 flex-col bg-secondary ${addNew ? 'hidden' : ''}`}>
+        <div id='data' className={`flex  gap-2 h-full w-full flex-1 flex-col bg-secondary ${addNew ? 'hidden' : ''}`}>
           {isModalOpen && (<Modal.DeleteModal handleCloseModal={handleCloseModal} handleConfirmDelete={handleConfirmDelete}/>)}
           <div className='w-full flex justify-between px-5 bg-primary p-3 '>
             <div className="rounded-md border dark:bg-gray-900">

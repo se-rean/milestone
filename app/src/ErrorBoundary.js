@@ -22,6 +22,8 @@ class ErrorBoundary extends Component {
   }
 
   render () {
+    console.log(this.state.error)
+
     if (this.state.hasError) {
       // You can render any custom fallback UI
       return (

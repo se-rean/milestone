@@ -1,6 +1,6 @@
 // src/components/ToggleableSidebar.js
 import DarkModeToggle from '../components/DarkModeToggle'
-import React, {} from 'react'
+import React, { useState } from 'react'
 import { Transition } from 'react-transition-group'
 
 const Sidebar = ({ isOpen, onClose, onSelect }) => {
@@ -15,6 +15,8 @@ const Sidebar = ({ isOpen, onClose, onSelect }) => {
     { name: 'documents', label: 'Documents' },
     { name: 'risk', label: 'Risk' }
   ]
+
+  const [selectedItem, setSelectedItem] = useState(null)
 
   const duration = 300
 
@@ -32,6 +34,7 @@ const Sidebar = ({ isOpen, onClose, onSelect }) => {
 
   const handleOnSelect = (args) => {
     onSelect(args)
+    setSelectedItem(args)
   }
 
   return (
@@ -53,13 +56,21 @@ const Sidebar = ({ isOpen, onClose, onSelect }) => {
               className="text-2xl font-bold mb-4 pt-[30px] px-[38px]"
               src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuiv8OnGDFr37sFZasBKlRrCZm46guLppTFo38z01XKQ&s'
             />
-            <ul className='pt-[30px] px-[40px] gap-4 flex flex-col overflow-auto scrollbar'>
+            <ul className='pt-[30px] px-[40px] gap-4 flex flex-col overflow-auto scrollbar w-full'>
               {
                 Menu.map((item, index) => {
                   return item.name === 'category'
                     ? (<p className='text-gray-400 text-sm w-full mt-5 border-b my-4' key={item.name} >{item.label}</p>)
                     : (
-                      <li key={item.name} onClick={() => handleOnSelect(item.label)} className="cursor-pointer mb-2 hover:underline hover:text-md text-textSecondary rounded-[38.05px] w-auto text-center p-2 hover:text-textPrimary hover:bg-textBackground">{item.label}</li>
+                      <li
+                        key={item.name}
+                        onClick={() => handleOnSelect(item.label)}
+                        className={`cursor-pointer mb-2 hover:underline hover:text-md rounded-[38.05px] text-center p-2 hover:text-textPrimary w-full hover:bg-textBackground ${
+                          selectedItem === item.label ? 'bg-textBackground text-textPrimary' : 'text-textSecondary '
+                        }`}
+                      >
+                        {item.label}
+                      </li>
                     )
                 })
               }
