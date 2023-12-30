@@ -20,7 +20,7 @@ export default function ManageUserModal ({
     { name: 'state', label: 'State', value: '' },
     { name: 'suburb', label: 'SubUrb', value: '' },
     { name: 'expiration_date', label: 'Expiration Date', value: '' },
-    { name: 'MFA', label: 'MFA', value: 'true' },
+    { name: 'MFA', label: 'MFA', value: 'No' },
     { name: 'role', label: 'Role', value: 'Guest' }
   ])
 
@@ -66,17 +66,17 @@ export default function ManageUserModal ({
 
   const fetchRole = async () => {
     try {
-      const userRole = await httpClientRequest.get('http://47.128.250.72:8009/milestone/api/v1/user/role')
+      const userRole = await httpClientRequest.get('http://localhost:8009/milestone/api/v1/user/role')
       setFields((prevFields) => {
         const roleFieldIndex = prevFields.findIndex((field) => field.name === 'role')
         const updatedFields = [...prevFields]
         updatedFields[roleFieldIndex].options = userRole?.data
         const MFA = prevFields.findIndex((field) => field.name === 'MFA')
         updatedFields[MFA].options = [{
-          name: 'True'
+          name: 'Yes'
         },
         {
-          name: 'False'
+          name: 'No'
         }]
 
         return updatedFields

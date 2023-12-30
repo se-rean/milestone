@@ -15,7 +15,6 @@ const FileUploadComponent = forwardRef((_props, ref) => {
       const allowedFileTypes = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']
 
       if (allowedFileTypes.includes(selectedFile.type)) {
-        console.log('File is allowed:', selectedFile)
         setFile(selectedFile)
       } else {
         // File type is not allowed
@@ -27,7 +26,6 @@ const FileUploadComponent = forwardRef((_props, ref) => {
   }
 
   const handleSaveClick = async () => {
-    console.log(file)
     if (file) {
       const data = new FormData()
       data.append('file', file)
@@ -35,7 +33,7 @@ const FileUploadComponent = forwardRef((_props, ref) => {
       const config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: 'http://47.128.250.72:8009/milestone/api/v1/file/upload', // Replace with your actual upload URL
+        url: 'http://localhost:8009/milestone/api/v1/file/upload', // Replace with your actual upload URL
         headers: {
           'Content-Type': 'multipart/form-data'
         },
@@ -44,14 +42,10 @@ const FileUploadComponent = forwardRef((_props, ref) => {
 
       try {
         const response = await axios.request(config)
-        console.log(JSON.stringify(response.data))
         return response.data
       } catch (error) {
-        console.log(error)
         // Handle the error as needed
       }
-    } else {
-      console.log('Please select a file before clicking save.')
     }
   }
 

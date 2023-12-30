@@ -58,14 +58,13 @@ const Sidebar = ({ isOpen, onClose, onSelect }) => {
           >
             <img
               alt=''
-              onClick={onClose}
+              // onClick={onClose}
               className="text-2xl font-bold mb-4 pt-[30px] px-[38px]"
               src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuiv8OnGDFr37sFZasBKlRrCZm46guLppTFo38z01XKQ&s'
             />
             <ul className='pt-[30px] px-[40px] gap-4 flex flex-col overflow-auto scrollbar w-full'>
               {
                 Menu.map((item, index) => {
-                  console.log(item.icon)
                   return item.name === 'category'
                     ? (<p className='text-gray-400 text-sm w-full mt-5 border-b my-4' key={item.name} >{item.label}</p>)
                     : (

@@ -3,8 +3,10 @@
 import React, { useState } from 'react'
 import ToggleableSidebar from '../Layout/SideBar'
 import MainContent from './MainContent' // Import your menu icon
-
+import AuthenticateUser from '../lib/AuthenticateUser'
 function Main () {
+  AuthenticateUser()
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
   const [selected, setSelected] = useState('Home')
 
