@@ -19,12 +19,14 @@ module.exports = {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans]
       },
       colors: {
-        primary: '#3498db',
-        secondary: '#ffffff',
-        accent: '#2ecc71',
+        primary: '#F8F9FC',
+        secondary: '#f2f2f2',
+        accent: '#FFFFFF',
         background: '#f2f2f2',
-        text: '#333333',
-        highlight: '#f39c12'
+        textPrimary: '#551FFF',
+        textSecondary: '#D0D2DA',
+        textBackground: '#F3F0FF',
+        highlight: '#D0D2DA'
       }
     }
   }

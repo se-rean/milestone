@@ -25,14 +25,14 @@ export default function MainContent ({ selected }) {
 
   return (
     <div className={'flex-grow px-4 transition-margin duration-300 ease-in-out'}>
-      <div className='flex justify-between items-center'>
-        <h1 className="text-3xl font-bold  text-blue-500">{selected}</h1>
+      <div className='flex justify-between items-center bg-secondary'>
+        <h1 className="text-3xl font-bold  text-blue-500 p-5">{selected}</h1>
         <ul className='cursor-pointer'>
           <li onClick={() => logout()} className="text-md font-bold mb-4 hover:underline">Logout</li>
         </ul>
       </div>
       {/* Your dashboard content goes here */}
-      <div className="flex items-center justify-center h-[90vh] bg-gray-100">
+      <div className="flex items-center justify-center h-[90vh]">
         <Suspense fallback={<div>Loading...</div>}>
           <ErrorBoundary>
             <Component />

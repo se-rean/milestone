@@ -3,7 +3,8 @@ import React from 'react'
 import SiteEntry from './SiteEntry'
 
 const SiteForm = ({ sites, handleInputChange, handleSiteInputChange, removeSite, addNewSite }) => (
-  <div className='w-full'>
+  <div className='w-full gap-5 flex flex-col'>
+    <h1>Create New Company</h1>
     <div className="grid md:grid-cols-2 md:gap-6">
       <div className="relative z-0 w-full mb-5 group">
         <input type="text" name="floating_first_name" id="floating_company_name" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " onChange={(e) => handleInputChange('floating_company_name', 'company_name', e.target.value)} required/>
@@ -27,7 +28,7 @@ const SiteForm = ({ sites, handleInputChange, handleSiteInputChange, removeSite,
         removeSite={removeSite}
       />
     ))}
-    <span onClick={addNewSite} className="cursor-pointer bg-blue-400 p-2 text-[10px] rounded-lg text-white">New Site</span>
+    <span onClick={addNewSite} className="cursor-pointer w-[80px] text-center bg-blue-400 p-2 text-[10px] rounded-lg text-white">New Site</span>
   </div>
 )
 

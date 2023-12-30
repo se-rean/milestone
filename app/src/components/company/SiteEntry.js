@@ -2,8 +2,8 @@
 import React from 'react'
 
 const SiteEntry = ({ site, index, handleInputChange, removeSite }) => (
-  <div className="grid md:grid-cols-1 md:gap-6 mt-5">
-    <div key={site.id} className="relative z-0 w-full mb-5 group bg-secondary">
+  <div className="grid md:grid-cols-1 md:gap-6 mt-5 bg-secondary">
+    <div key={site.id} className="relative z-0 w-full pb-4 group bg-primary">
       <div className='flex justify-between'>
         <h1>Site {index + 1}</h1>
         {index > 0 && (<a href='#' onClick={() => removeSite(site.id)}>Remove</a>)}
