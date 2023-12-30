@@ -1,6 +1,6 @@
 import axios from 'axios'
 const request = axios.create({
-  baseURL: 'http://localhost:8009/milestone/api/v1',
+  baseURL: 'http://47.128.250.72:8009/milestone/api/v1',
   timeout: 5000, // 5 seconds timeout
   headers: {
     'Content-Type': 'application/json',

@@ -22,7 +22,7 @@ const FilePreview = ({ file }) => {
   if (!file) return null
 
   const [fileName, ext] = file.split('.')
-  const path = `http://localhost:8009/milestone/api/v1/file/read/${file}`
+  const path = `http://47.128.250.72:8009/milestone/api/v1/file/read/${file}`
 
   return (
     <div className="">
