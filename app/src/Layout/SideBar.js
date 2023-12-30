@@ -9,6 +9,7 @@ const Sidebar = ({ isOpen, onClose, onSelect }) => {
     { name: 'dashboard', label: 'Dashboard' },
     { name: 'category', label: 'Manage' }, // for creating menu category note: change label
     { name: 'customer', label: 'Customer' },
+    { name: 'user', label: 'User' },
     { name: 'company', label: 'Company' },
     { name: 'compliance', label: 'Compliance' },
     { name: 'documents', label: 'Documents' },
