@@ -6,7 +6,7 @@ import MainContent from './MainContent' // Import your menu icon
 
 function Main () {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
-  const [selected, setSelected] = useState('DashBoard')
+  const [selected, setSelected] = useState('Home')
 
   const handleOnSelect = (args) => {
     setSelected(args)
