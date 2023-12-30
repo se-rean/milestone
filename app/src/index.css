@@ -70,3 +70,25 @@ input:checked + .slider:before {
 .pg-viewer-wrapper {
   overflow-y: hidden;
 }
+
+/* CSS for WebKit browsers (Chrome, Safari) */
+.scrollbar {
+  margin-right: -2px;
+  scrollbar-width: thin;
+  scrollbar-color: #ccc transparent; /* Adjust the color as needed */
+}
+
+.scrollbar::-webkit-scrollbar {
+  width: 3px;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  background-color: #ccc; /* Adjust the color as needed */
+  border-radius: 6px;
+  
+}
+
+.scrollbar::-webkit-scrollbar-track {
+  background-color: transparent;
+
+}

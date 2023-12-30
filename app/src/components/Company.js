@@ -60,7 +60,7 @@ const Company = () => {
     const payload = {
       company_name: fields.company_name,
       address: fields.address,
-      file_upload: fileUpload.filename,
+      file_upload: fileUpload?.filename,
       sites
     }
 
@@ -82,7 +82,7 @@ const Company = () => {
   let filteredSites = []
   if (!fetchingData && company.data) {
     filteredSites = company.data.rows.filter(item =>
-      item.company_name.includes(searchTerm)
+      item?.company_name.includes(searchTerm)
     )
 
     console.log(filteredSites)
@@ -109,13 +109,13 @@ const Company = () => {
   }
 
   return (
-    <div className='h-full w-full bg-background'>
+    <div className='h-full w-full'>
 
-      <div className='h-[90vh] justify-around flex gap-2  p-5'>
-        <div id='data' className='flex gap-2 h-full flex-1 flex-col  bg-secondary'>
+      <div className='h-[90vh] justify-around flex gap-2  p-5 bg-secondary'>
+        <div id='data' className={`flex gap-2 h-full w-full flex-1 flex-col bg-secondary ${addNew ? 'hidden' : ''}`}>
           {isModalOpen && (<Modal.DeleteModal handleCloseModal={handleCloseModal} handleConfirmDelete={handleConfirmDelete}/>)}
-          <div className='w-full h-[3rem] bg-secondary flex justify-between px-5 border border-cyan-400'>
-            <div className="pb-4 bg-white dark:bg-gray-900">
+          <div className='w-full flex justify-between px-5 bg-primary p-3 '>
+            <div className="rounded-md border dark:bg-gray-900">
               <label htmlFor="table-search" className="sr-only">Search</label>
               <div className="relative mt-1">
                 <div className="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -126,7 +126,7 @@ const Company = () => {
                 <input
                   type="text"
                   id="table-search"
-                  className="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className="block ps-10 text-md text-gray-900 border border-secondary rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Search for Company"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
@@ -135,16 +135,16 @@ const Company = () => {
             </div>
             <button onClick={() => toggleAddNew()}>{addNew ? 'Cancel' : 'Register New'}</button>
           </div>
-
-          {!fetchingData && (<CompanyTable handleDelete={handleDelete} filteredSites={filteredSites} />) }
-          <div className='w-full h-[3rem] bg-secondary flex justify-between px-5 '>
+          <div className='p-3 h-full bg-primary'>
+            {!fetchingData && (<CompanyTable handleDelete={handleDelete} filteredSites={filteredSites} />) }
+          </div>
+          <div className='w-full h-[3rem] bg-primary flex flex-1 justify-between px-5 p-3 '>
             {!fetchingData && <button className='underline' onClick={() => page > 1 ? setPage(page - 1) : ''}>Prevous Page</button> }
-            <label>Page {page}</label>
             {!fetchingData && <button className='underline' onClick={() => company.data.count / pageSize > page ? setPage(page + 1) : ''}>Next Page</button> }
           </div>
         </div>
 
-        <div id='table' className={`flex overflow-y-scroll ${addNew ? '' : 'hidden'} bg-secondary w-[50rem] p-5`}>
+        <div id='table' className={`flex overflow-y-scroll ${addNew ? '' : 'hidden'} bg-primary w-[50rem] p-5`}>
           <form onSubmit={(e) => createNewCompany(e)} className="w-[40rem] mx-auto m-5 gap-3">
             <SiteForm
               sites={sites}
@@ -157,6 +157,7 @@ const Company = () => {
             <FileUploadComponent ref={fileUploadRef} />
 
             <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 mt-5">Save</button>
+            <a onClick={() => setAddNew(false)} href='#' className="text-white bg-orange-400 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 mt-5">Cancel</a>
           </form>
         </div>
       </div>
