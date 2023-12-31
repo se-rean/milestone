@@ -1,11 +1,17 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import httpClientRequest from '../lib/httpClientRequest'
 import AuthenticateUser from '../lib/AuthenticateUser'
 import { decryptFromStorage, encryptAndStore } from '../lib/SecureStorage'
 export default function Login () {
-  AuthenticateUser()
   const navigate = useNavigate()
+  useEffect(() => {
+    const user = decryptFromStorage('user')
+    // eslint-disable-next-line eqeqeq
+    if (user) {
+      navigate('/main')
+    }
+  }, [])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 

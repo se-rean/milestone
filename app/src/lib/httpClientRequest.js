@@ -7,7 +7,7 @@ const request = axios.create({
   timeout: 5000, // 5 seconds timeout
   headers: {
     'Content-Type': 'application/json',
-    Authorization: `Bearer ${user.access_token}`
+    Authorization: `Bearer ${user?.access_token}`
   }
 })
 
