@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import httpClientRequest from '../lib/httpClientRequest'
 import ErrorBoundary from '../ErrorBoundary'
 
-export default function ManageUserModal ({
+export default function CompanyModal ({
   handleSubmit, closeModal, createUser, update = false,
   updateData = {}
 }) {

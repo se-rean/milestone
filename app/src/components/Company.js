@@ -26,6 +26,7 @@ const Company = () => {
 
   const fetchData = async () => {
     const companyData = await httpClientRequest.get(`/company/?page=${page}&page_size=${pageSize}`)
+    if (companyData.is_success === false) return alert(companyData.message)
     setCompany(companyData)
     setFetchingData(false)
   }
@@ -77,7 +78,8 @@ const Company = () => {
   let filteredSites = []
   if (!fetchingData && company.data) {
     filteredSites = company.data.rows.filter(item =>
-      item?.company_name.includes(searchTerm)
+      // item?.company_name.includes(searchTerm)
+      item
     )
   }
 

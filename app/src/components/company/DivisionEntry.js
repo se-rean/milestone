@@ -1,15 +1,9 @@
 import React, { useState } from 'react'
 
-const SiteEntry = ({ sites }) => {
+const DivisionEntry = ({ sites }) => {
   const initialFields = [
-    { name: 'site_address', label: 'Site address', value: '' },
-    { name: 'country', label: 'Country', value: '' },
-    { name: 'site_state', label: 'State', value: '' },
-    { name: 'site_suburb', label: 'Suburb', value: '' },
-    { name: 'site_contact_person', label: 'Contact Person Name', value: '' },
-    { name: 'site_person_mobile', label: 'Contact Person Mobile', value: '' },
-    { name: 'site_person_email', label: 'Contact Person Email', value: '' },
-    { name: 'site_status', label: 'Status', value: '', options: [{ name: 'Active' }, { name: 'Inactive' }] }
+    { name: 'department_name', label: 'Department', value: '' },
+    { name: 'department _responsible_person', label: 'Department Responsible person', value: '' }
   ]
 
   const [divs, setDivs] = useState([{ id: 1, fields: initialFields }]) // Initial array with one div
@@ -43,10 +37,10 @@ const SiteEntry = ({ sites }) => {
         <div key={id} className="grid md:grid-cols-1 md:gap-6 mt-5 bg-secondary border-2 p-1">
           <div className="relative z-0 w-full pb-4 group bg-primary p-5">
             <div className='flex justify-between pb-4'>
-              <h1>Site {index + 1}</h1>
+              <h1>Department {index + 1}</h1>
               <button className='bg-red-500 hover:bg-accent text-primary hover:text-textPrimary border rounded-md px-[20px] py-[5px] ' onClick={() => handleRemoveDiv(id)}>Remove</button>
             </div>
-            <div className='flex-col grid md:grid-cols-2 md:gap-6'>
+            <div className=''>
               {fields.map(field => (
                 <div key={field.name} className="mb-4 relative z-0">
                   {field.options
@@ -90,9 +84,9 @@ const SiteEntry = ({ sites }) => {
           </div>
         </div>
       ))}
-      <button className='bg-secondary hover:bg-accent text-gray-600 hover:text-textPrimary border rounded-md px-[20px] py-[5px] ' onClick={handleAddDiv}>New Site</button>
+      <button className='bg-secondary hover:bg-accent text-gray-600 hover:text-textPrimary border rounded-md px-[20px] py-[5px] ' onClick={handleAddDiv}>New Division</button>
     </div>
   )
 }
 
-export default SiteEntry
+export default DivisionEntry

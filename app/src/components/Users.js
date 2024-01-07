@@ -26,6 +26,7 @@ const UserManagement = () => {
   const createUser = (data) => {
     setFetchUsers(true)
     closeModal()
+    getUsers()
   }
 
   useEffect(() => {
@@ -35,7 +36,9 @@ const UserManagement = () => {
   const getUsers = async () => {
     setFetchUsers(true)
     const userList = await httpClientRequest.get('/user/')
+    if (userList.is_success === false) alert(userList.message)
     setUsers(userList)
+    console.log(userList)
     setFetchUsers(false)
   }
 
@@ -54,6 +57,7 @@ const UserManagement = () => {
     setFetchUsers(true)
     const companyData = await httpClientRequest.delete(`/user/?user_id=${deleteItemId}`)
     handleCloseModal()
+    getUsers()
     setFetchUsers(false)
   }
 
@@ -71,8 +75,10 @@ const UserManagement = () => {
       { viewCreateModal && <ManageUserModal update={forUpdate} updateData={updateData} createUser={createUser} closeModal={closeModal} /> }
       {/* Table Div */}
       <div className="border p-4 w-1/2 flex-1 overflow-scroll  rounded-md bg-primary">
-        <h2 className="text-lg font-semibold mb-4">Users Table</h2>
-        <h2 onClick={addUser} className="text-lg font-semibold mb-4 border-2 border-cyan-100 w-28 px-2 hover:bg-primary rounded-md text-center text-slate-600 cursor-pointer text-gray-200">Add New</h2>
+        <div className='flex justify-between items-center'>
+          <h2 className="text-lg font-semibold mb-4">Users Table</h2>
+          <h2 onClick={addUser} className="text-lg font-semibold mb-4 border-2 border-cyan-100 w-28 px-2 hover:bg-primary rounded-md text-center text-slate-600 cursor-pointer text-gray-200">Add New</h2>
+        </div>
         <table className="w-full border-collapse">
           <thead>
             <tr>
@@ -86,9 +92,10 @@ const UserManagement = () => {
               <th className="border p-2">Country</th>
               <th className="border p-2">State</th>
               <th className="border p-2">SubUrb</th>
-              <th className="border p-2">Expiration Date</th>
               <th className="border p-2">MFA</th>
-              <th className="p-2">Action</th>
+              <th className="border p-2">Role</th>
+              <th className="border p-2">Expiration Date</th>
+              <th className="border p-2">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -106,11 +113,12 @@ const UserManagement = () => {
                 <td className="border p-2">{user.suburb}</td>
                 <td className="border p-2">{user.MFA}</td>
                 <td className="border p-2">{user.role}</td>
-                <td className="flex flex-row px-6 py-4 gap-2 items-center align-center justify-center">
-                  <a onClick={() => setUpdateData(user)} href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                <td className="border p-2">{user.expiration_date}</td>
+                <td className=" border">
+                  <a onClick={() => setUpdateData(user)} href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline p-3">
                     Edit
                   </a>
-                  <a onClick={() => handleDelete(user.id)} href="#" className="font-medium text-red-500 dark:text-blue-500 hover:underline">
+                  <a onClick={() => handleDelete(user.id)} href="#" className="font-medium text-red-500 dark:text-blue-500 hover:underline p-3">
                     Delete
                   </a>
                 </td>

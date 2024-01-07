@@ -32,6 +32,8 @@ export default function MainContent ({ selected }) {
       setComponent(lazy(() => import('./Users')))
     } else if (selected === 'Home') {
       setComponent(lazy(() => import('./DashBoard')))
+    } else if (selected === 'Supplier') {
+      setComponent(lazy(() => import('./Supplier')))
     } else {
       setComponent(lazy(() => import('./UnderConstruction')))
     }
