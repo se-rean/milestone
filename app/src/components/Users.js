@@ -79,23 +79,23 @@ const UserManagement = () => {
           <h2 className="text-lg font-semibold mb-4">Users Table</h2>
           <h2 onClick={addUser} className="text-lg font-semibold mb-4 border-2 border-cyan-100 w-28 px-2 hover:bg-primary rounded-md text-center text-slate-600 cursor-pointer text-gray-200">Add New</h2>
         </div>
-        <table className="w-full border-collapse">
-          <thead>
+        <table className="w-full  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-              <th className="border p-2">Username</th>
-              <th className="border p-2">Email</th>
-              <th className="border p-2">Name</th>
-              <th className="border p-2">Department</th>
-              <th className="border p-2">Position</th>
-              <th className="border p-2">Phone No.</th>
-              <th className="border p-2">Site Address</th>
-              <th className="border p-2">Country</th>
-              <th className="border p-2">State</th>
-              <th className="border p-2">SubUrb</th>
-              <th className="border p-2">MFA</th>
-              <th className="border p-2">Role</th>
-              <th className="border p-2">Expiration Date</th>
-              <th className="border p-2">Actions</th>
+              <th scope="col" className="border p-2">Username</th>
+              <th scope="col" className="border p-2">Email</th>
+              <th scope="col" className="border p-2">Name</th>
+              <th scope="col" className="border p-2">Department</th>
+              <th scope="col" className="border p-2">Position</th>
+              <th scope="col" className="border p-2">Phone No.</th>
+              <th scope="col" className="border p-2">Site Address</th>
+              <th scope="col" className="border p-2">Country</th>
+              <th scope="col" className="border p-2">State</th>
+              <th scope="col" className="border p-2">SubUrb</th>
+              <th scope="col" className="border p-2">MFA</th>
+              <th scope="col" className="border p-2">Role</th>
+              <th scope="col" className="border p-2">Expiration Date</th>
+              <th scope="col" className="border p-2">Actions</th>
             </tr>
           </thead>
           <tbody>
