@@ -35,6 +35,27 @@ export const httpClientRequest = Object.freeze({
     } catch (error) {
       console.info(`Error on Delete request: ${URL}, ${error}`)
     }
+  },
+  upload: async (directory, payload) => {
+    try {
+      const data = new FormData()
+      data.append('file', payload)
+
+      const config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: `http://localhost:8009/milestone/api/v1/file/upload?docType=${directory}`,
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        data
+      }
+
+      const response = await axios.request(config)
+      return response.data
+    } catch (error) {
+      console.error(`Error on POST request: ${directory}, ${error}`)
+    }
   }
 })
 

@@ -16,6 +16,7 @@ const FileUploadComponent = forwardRef((_props, ref) => {
 
       if (allowedFileTypes.includes(selectedFile.type)) {
         setFile(selectedFile)
+        _props.onFileSelect(selectedFile)
       } else {
         // File type is not allowed
         alert('Please select a valid file type (PDF or DOCX)')
@@ -25,7 +26,7 @@ const FileUploadComponent = forwardRef((_props, ref) => {
     }
   }
 
-  const handleSaveClick = async () => {
+  const handleSaveClick = async (docType) => {
     if (file) {
       const data = new FormData()
       data.append('file', file)
@@ -33,7 +34,7 @@ const FileUploadComponent = forwardRef((_props, ref) => {
       const config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: 'http://localhost:8009/milestone/api/v1/file/upload', // Replace with your actual upload URL
+        url: `http://localhost:8009/milestone/api/v1/file/upload/${docType}`, // Replace with your actual upload URL
         headers: {
           'Content-Type': 'multipart/form-data'
         },
@@ -55,10 +56,10 @@ const FileUploadComponent = forwardRef((_props, ref) => {
   }))
 
   return (
-    <div className='mt-5 flex-col gap-1 flex'>
+    <div className='flex-col gap-1 flex'>
       {/* Input for file selection */}
-      <label>Upload File:</label>
-      <input type="file" className='bg-yellow-200' onChange={handleFileChange} />
+      <label>{_props.title}</label>
+      <input type="file" required={_props.required} className='bg-yellow-200' onChange={handleFileChange} />
       {/* Button to trigger file upload */}
       {/* <button onClick={handleSaveClick}>Save</button> */}
     </div>

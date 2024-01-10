@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
-const DivisionEntry = ({ sites }) => {
+const DivisionEntry = ({ isUpdate, divisionData, onValuesChange }) => {
   const initialFields = [
     { name: 'department_name', label: 'Department', value: '' },
-    { name: 'department _responsible_person', label: 'Department Responsible person', value: '' }
+    { name: 'department_responsible_person', label: 'Department Responsible person', value: '' },
+    { name: 'staff', label: 'Department Number of Staff', value: '' }
   ]
 
   const [divs, setDivs] = useState([{ id: 1, fields: initialFields }]) // Initial array with one div
@@ -16,6 +17,7 @@ const DivisionEntry = ({ sites }) => {
 
   const handleRemoveDiv = (divIdToRemove) => {
     setDivs(prevDivs => prevDivs.filter(div => div.id !== divIdToRemove))
+    updateValue()
   }
 
   const handleFieldChange = (divId, fieldName, value) => {
@@ -29,16 +31,53 @@ const DivisionEntry = ({ sites }) => {
         }
         : div
     ))
+
+    updateValue()
+  }
+
+  useEffect(() => {
+    // Reset fields when the parent container form is submitted
+
+    if (isUpdate === true) {
+      let divData = []
+      divisionData.forEach((element, index) => {
+        console.log(divisionData)
+        console.log(initialFields)
+        const fields = [...initialFields]
+        fields.forEach(item => {
+          item.value = element[item.name]
+        })
+        divData = [...divData, { id: index, fields }]
+        console.log('fields', fields)
+        console.log(`divdata ${index}`, divData)
+        setNextDivId(prevNextDivId => prevNextDivId + 1)
+      })
+      // setDivs(divData)
+      setDivs(divData)
+      console.log(divs)
+      updateValue()
+    }
+  }, [])
+
+  const updateValue = () => {
+    const allValues = divs.reduce((acc, cur) => {
+      return { ...acc, [cur.id]: cur.fields }
+    }, {})
+    onValuesChange(allValues)
   }
 
   return (
-    <div>
+    <div className='flex flex-col gap-1  bg-secondary border-2 p-1'>
       {divs.map(({ id, fields }, index) => (
-        <div key={id} className="grid md:grid-cols-1 md:gap-6 mt-5 bg-secondary border-2 p-1">
+        <div key={id} className="grid md:grid-cols-1 md:gap-6 mt-5  ">
           <div className="relative z-0 w-full pb-4 group bg-primary p-5">
             <div className='flex justify-between pb-4'>
-              <h1>Department {index + 1}</h1>
-              <button className='bg-red-500 hover:bg-accent text-primary hover:text-textPrimary border rounded-md px-[20px] py-[5px] ' onClick={() => handleRemoveDiv(id)}>Remove</button>
+              <h1>Department {nextDivId}</h1>
+              {
+                index > 0 && (
+                  <button className='bg-red-500 hover:bg-accent text-primary hover:text-textPrimary border rounded-md px-[20px] py-[5px] ' onClick={() => handleRemoveDiv(id)}>Remove</button>
+                )
+              }
             </div>
             <div className=''>
               {fields.map(field => (
@@ -84,7 +123,7 @@ const DivisionEntry = ({ sites }) => {
           </div>
         </div>
       ))}
-      <button className='bg-secondary hover:bg-accent text-gray-600 hover:text-textPrimary border rounded-md px-[20px] py-[5px] ' onClick={handleAddDiv}>New Division</button>
+      <a className='bg-secondary hover:bg-accent text-gray-600 hover:text-textPrimary border rounded-md px-[20px] py-[5px] w-[135px] cursor-pointer' onClick={handleAddDiv}>New Division</a>
     </div>
   )
 }

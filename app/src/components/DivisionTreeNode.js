@@ -18,20 +18,14 @@ const TreeNode = ({ node }) => {
       // onMouseLeave={() => setExpanded(false)}
     >
       <div className="flex justify-between items-center">
-        <div className="text-sm font-medium text-gray-900">{node.site_address}</div>
+        <div className="text-sm font-medium text-gray-900">{node.department_name}</div>
         <button className='font-bold text-lg px-1 hover:border-2 h-7' onClick={expanded ? toggleOff : toggleOn}>{expanded ? 'X' : '▼'}</button>
       </div>
       {expanded && (
         <div className="ml-8 flex justify-between">
           <div>
-            <p>Address: {node.site_address}</p>
-            <p>Country: {node.country}</p>
-            <p>State: {node.site_state}</p>
-            <p>Suburb: {node.site_suburb}</p>
-            <p>Contact Person: {node.site_contact_person}</p>
-            <p>mobile: {node.site_person_mobile}</p>
-            <p>Email: {node.site_person_email}</p>
-            <p>Site Status: <a className={`${node.site_status === 'Inactive' ? 'text-red-500' : 'text-yellow-400'}`}>{node.site_status}</a></p>
+            <p>Department Name: {node.department_name}</p>
+            <p>Resonsible Person: {node.department_responsible_person}</p>
           </div>
         </div>
       )}
@@ -51,7 +45,7 @@ const TreeNode = ({ node }) => {
   )
 }
 
-const Tree = ({ data }) => {
+const DivisionTreeNode = ({ data }) => {
   return (
     (data.length > 0) &&
     <div className="flex flex-col">
@@ -77,4 +71,4 @@ const Tree = ({ data }) => {
   )
 }
 
-export default Tree
+export default DivisionTreeNode
