@@ -17,6 +17,13 @@ export default function MainContent ({ selected }) {
   }
 
   const [Component, setComponent] = useState(lazy(() => import('./DashBoard')))
+  useEffect(() => {
+    const user = decryptFromStorage('user')
+    // eslint-disable-next-line eqeqeq
+    if (!user || user == 'undefined' || user == 'null') {
+      navigate('/')
+    }
+  }, [])
 
   useEffect(() => {
     if (selected === 'Company') {
@@ -25,6 +32,8 @@ export default function MainContent ({ selected }) {
       setComponent(lazy(() => import('./Users')))
     } else if (selected === 'Home') {
       setComponent(lazy(() => import('./DashBoard')))
+    } else if (selected === 'Supplier') {
+      setComponent(lazy(() => import('./Supplier')))
     } else {
       setComponent(lazy(() => import('./UnderConstruction')))
     }

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import httpClientRequest from '../lib/httpClientRequest'
 import ErrorBoundary from '../ErrorBoundary'
 
-export default function ManageUserModal ({
+export default function CompanyModal ({
   handleSubmit, closeModal, createUser, update = false,
   updateData = {}
 }) {
@@ -67,7 +67,7 @@ export default function ManageUserModal ({
 
   const fetchRole = async () => {
     try {
-      const userRole = await httpClientRequest.get('http://localhost:8009/milestone/api/v1/user/role')
+      const userRole = await httpClientRequest.get('http://47.128.250.72:8009/milestone/api/v1/user/role')
       console.log(userRole)
       setFields((prevFields) => {
         const roleFieldIndex = prevFields.findIndex((field) => field.name === 'role')
@@ -113,9 +113,6 @@ export default function ManageUserModal ({
       <form onSubmit={(e) => addUser(e)}>
         <div className="fixed inset-0 z-10 overflow-y-auto">
           <div className="flex items-end justify-center min-h-screen h-40 pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div className="fixed inset-0 transition-opacity" aria-hidden="true">
-              <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
-            </div>
             {/* ... (unchanged code) */}
             <div className="inline-block align-bottom bg-white rounded-lg text-left shadow-xl transform transition-all sm:my-8 sm:align-middle w-[70vh]">
               {/* Modal content */}

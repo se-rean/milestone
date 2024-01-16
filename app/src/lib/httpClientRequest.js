@@ -7,7 +7,7 @@ const request = axios.create({
   timeout: 5000, // 5 seconds timeout
   headers: {
     'Content-Type': 'application/json',
-    Authorization: `Bearer ${user.access_token}`
+    Authorization: `Bearer ${user?.access_token}`
   }
 })
 
@@ -34,6 +34,27 @@ export const httpClientRequest = Object.freeze({
       return response.data
     } catch (error) {
       console.info(`Error on Delete request: ${URL}, ${error}`)
+    }
+  },
+  upload: async (directory, payload) => {
+    try {
+      const data = new FormData()
+      data.append('file', payload)
+
+      const config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: `http://localhost:8009/milestone/api/v1/file/upload?docType=${directory}`,
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        data
+      }
+
+      const response = await axios.request(config)
+      return response.data
+    } catch (error) {
+      console.error(`Error on POST request: ${directory}, ${error}`)
     }
   }
 })

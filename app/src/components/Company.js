@@ -5,6 +5,7 @@ import SiteForm from './company/SiteForm'
 import httpClientRequest from '../lib/httpClientRequest'
 import Modal from './Modal'
 import FileUploadComponent from './Upload'
+import axios from 'axios'
 const Company = () => {
   const [addNew, setAddNew] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
@@ -16,7 +17,9 @@ const Company = () => {
   const [pageSize] = useState(10)
   const [page, setPage] = useState(1)
   const [deleteItemId, setDeleteItemId] = useState(null)
+  const [companyFIle, setCompanyFile] = useState(null)
   const [isModalOpen, setModalOpen] = useState(false)
+  const [newCompanyData, setNewCompanyData] = useState(null)
   const fileUploadRef = useRef()
 
   useEffect(() => {
@@ -26,6 +29,7 @@ const Company = () => {
 
   const fetchData = async () => {
     const companyData = await httpClientRequest.get(`/company/?page=${page}&page_size=${pageSize}`)
+    if (companyData?.is_success === false || !companyData) return alert(companyData?.message)
     setCompany(companyData)
     setFetchingData(false)
   }
@@ -53,31 +57,62 @@ const Company = () => {
   const createNewCompany = async (e) => {
     e.preventDefault()
     setSaving(true)
-    const fileUpload = await fileUploadRef.current.handleSaveClick()
-
-    const payload = {
-      company_name: fields.company_name,
-      address: fields.address,
-      file_upload: fileUpload?.filename,
-      sites
-    }
-
-    const companyData = await httpClientRequest.post('/company', payload)
-
+    // const fileUpload = await fileUploadRef.current.handleSaveClick('organization')
+    const fileUploaded = await uploadFile()
+    const payload = newCompanyData
+    console.log(fileUploaded)
+    payload.companyFieldData.organisation_structure = fileUploaded.organizationChartFileName
+    payload.companyFieldData.company_file = fileUploaded.companyFileFileName
+    console.log(payload)
+    const companyDataResult = await httpClientRequest.post('/company', payload)
+    console.log(companyDataResult)
+    setAddNew(false)
     setSaving(false)
-    setSites([{}])
+  }
+
+  const uploadFile = async () => {
+    const fileUploaded = {}
+    try {
+      const uploadPromises = []
+
+      const filesToUpload = [
+        { key: 'organisation', file: newCompanyData.organizationChart, target: 'organizationChartFileName' },
+        { key: 'company_file', file: newCompanyData.company_file, target: 'companyFileFileName' }
+        // Add more files if needed
+      ]
+
+      for (const { key, file, target } of filesToUpload) {
+        const uploadPromise = httpClientRequest.upload(key, file)
+          .then(response => {
+            console.log(response)
+            fileUploaded[target] = response?.filename
+          })
+
+        uploadPromises.push(uploadPromise)
+      }
+
+      // Wait for all upload promises to complete
+      await Promise.all(uploadPromises)
+
+      // The rest of your code after uploads
+      // ...
+    } catch (error) {
+      // Handle errors
+      console.error(error)
+    }
+    return fileUploaded
   }
 
   const toggleAddNew = () => {
     setAddNew(!addNew)
-    setSites([{}])
-    setFields([])
   }
 
   let filteredSites = []
   if (!fetchingData && company.data) {
+    console.log(company.data)
     filteredSites = company.data.rows.filter(item =>
-      item?.company_name.includes(searchTerm)
+      // item?.company_organization.includes(searchTerm)
+      item
     )
   }
 
@@ -99,13 +134,21 @@ const Company = () => {
     handleCloseModal()
   }
 
-  return (
-    <div className='h-full w-full'>
+  const allFieldsData = (data) => {
+    data.company_file = companyFIle
+    setNewCompanyData(data)
+  }
 
-      <div className='h-[90vh] justify-around flex gap-2  p-5 bg-secondary'>
-        <div id='data' className={`flex  gap-2 h-full w-full flex-1 flex-col bg-secondary ${addNew ? 'hidden' : ''}`}>
+  const handleCompanyFileSelect = (file) => {
+    setCompanyFile(file)
+  }
+
+  return (
+    <div className="flex justify-around h-full w-full bg-secondary p-5">
+      <div className='h-[90vh] w-[70%]   justify-around flex gap-2  p-5 bg-secondary'>
+        <div id='data' className={`flex  w-[150vh]  gap-2 h-full  flex-1 flex-col bg-secondary ${addNew ? 'hidden' : ''}`}>
           {isModalOpen && (<Modal.DeleteModal handleCloseModal={handleCloseModal} handleConfirmDelete={handleConfirmDelete}/>)}
-          <div className='w-full flex justify-between px-5 bg-primary p-3 '>
+          <div className='flex justify-between px-5 bg-primary p-3 '>
             <div className="rounded-md border dark:bg-gray-900">
               <label htmlFor="table-search" className="sr-only">Search</label>
               <div className="relative mt-1">
@@ -126,28 +169,35 @@ const Company = () => {
             </div>
             <button onClick={() => toggleAddNew()}>{addNew ? 'Cancel' : 'Register New'}</button>
           </div>
-          <div className='p-3 h-full bg-primary'>
+          <div className='relative p-3 scrollbar overflow-x-auto overflow-y-auto h-full bg-primary'>
             {!fetchingData && (<CompanyTable handleDelete={handleDelete} filteredSites={filteredSites} />) }
           </div>
-          <div className='w-full h-[3rem] bg-primary flex flex-1 justify-between px-5 p-3 '>
+          <div className='h-[3rem] bg-primary flex flex-1 justify-between px-5 p-3 '>
             {!fetchingData && <button className='underline' onClick={() => page > 1 ? setPage(page - 1) : ''}>Prevous Page</button> }
             {!fetchingData && <button className='underline' onClick={() => company.data.count / pageSize > page ? setPage(page + 1) : ''}>Next Page</button> }
           </div>
         </div>
 
-        <div id='table' className={`flex overflow-y-scroll ${addNew ? '' : 'hidden'} bg-primary w-[50rem] p-5`}>
-          <form onSubmit={(e) => createNewCompany(e)} className="w-[40rem] mx-auto m-5 gap-3">
-            <SiteForm
-              sites={sites}
-              handleInputChange={handleInputChange}
-              handleSiteInputChange={handleSiteInputChange}
-              removeSite={removeSite}
-              addNewSite={addNewSite}
-            />
-
-            <FileUploadComponent ref={fileUploadRef} />
-
-            <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 mt-5">Save</button>
+        <div id='table' className={`flex scrollbar overflow-y-scroll ${addNew ? '' : 'hidden'} bg-primary w-[50rem] p-5 rounded-lg`}>
+          <form onSubmit={(e) => createNewCompany(e)} className="w-[40rem] mx-auto m-5 gap-3 p-5">
+            {
+              addNew && (
+                <><SiteForm
+                  submited={addNew}
+                  allFieldsData={allFieldsData}
+                  sites={sites}
+                  handleInputChange={handleInputChange}
+                  handleSiteInputChange={handleSiteInputChange}
+                  removeSite={removeSite}
+                  addNewSite={addNewSite} />
+                <FileUploadComponent
+                  onFileSelect={handleCompanyFileSelect}
+                  title="Upload File" />
+                <button
+                  type="submit"
+                  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 mt-5">Save</button></>
+              )
+            }
             <a onClick={() => setAddNew(false)} href='#' className="text-white bg-orange-400 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 mt-5">Cancel</a>
           </form>
         </div>

@@ -1,11 +1,21 @@
 // src/App.js
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ToggleableSidebar from '../Layout/SideBar'
 import MainContent from './MainContent' // Import your menu icon
 import AuthenticateUser from '../lib/AuthenticateUser'
+import { decryptFromStorage, encryptAndStore } from '../lib/SecureStorage'
+import { useNavigate } from 'react-router-dom'
+
 function Main () {
-  AuthenticateUser()
+  const navigate = useNavigate()
+  useEffect(() => {
+    const user = decryptFromStorage('user')
+    // eslint-disable-next-line eqeqeq
+    if (!user || user == 'undefined' || user == 'null') {
+      navigate('/')
+    }
+  }, [])
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
   const [selected, setSelected] = useState('Home')

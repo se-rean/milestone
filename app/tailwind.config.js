@@ -26,6 +26,7 @@ module.exports = {
         textPrimary: '#551FFF',
         textSecondary: '#D0D2DA',
         textBackground: '#F3F0FF',
+        textAccent: 'text-gray-600',
         highlight: '#D0D2DA'
       }
     }

@@ -19,7 +19,8 @@ const Sidebar = ({ isOpen, onClose, onSelect }) => {
     { name: 'company', label: 'Company', icon: company },
     { name: 'compliance', label: 'Compliance', icon: compliance },
     { name: 'documents', label: 'Documents', icon: documents },
-    { name: 'risk', label: 'Risk', icon: risk }
+    { name: 'risk', label: 'Risk', icon: risk },
+    { name: 'supplier', label: 'Supplier', icon: '' }
   ]
 
   const [selectedItem, setSelectedItem] = useState('Home')
